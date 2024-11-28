@@ -18,7 +18,7 @@ public class ConnectArd : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     SerialPort sp = new SerialPort("COM4", 9600);
-    public float moveSpeed = 2f;
+    public float moveSpeed = 5f;
     public float lookSpeed = 2f;
     public float jumpForce = 5f;
 
@@ -67,9 +67,18 @@ public class ConnectArd : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        moveDOWN = false;
+        moveUP = false;
+        moveLEFT = false;
+        moveRIGHT = false;
+        lookDOWN = false;
+        lookUP= false;
+        lookLEFT = false;
+        lookRIGHT = false;
+       
 
-        Move();
-        Look();
+
+
 
         if (sp.IsOpen)
         {
@@ -105,37 +114,57 @@ public class ConnectArd : MonoBehaviour
                             Debug.Log("Trigger is Pressed");
                             Triggerpressed = true;
                             break;
-                        case 6:
-                            //Debug.Log("Move_UP");
-                            moveUP = true;
-                            break;
-                        case 7:
-                            //Debug.Log("Move_DOWN");
-                            moveDOWN = true;
-                            break;
-                        case 8:
-                            //Debug.Log("Move_RIGHT");
-                            moveRIGHT = true;
-                            break;
-                        case 9:
-                            //Debug.Log("Move_LEFT");
-                            moveLEFT = true;
-                            break;
+
+
+                        
+
+
+
+
+                      case 6:
+                    Debug.Log("Move_UP");
+                    moveUP = true;
+                    break;
+
+
+                case 7:
+                    Debug.Log("Move_DOWN");
+                    moveDOWN = true;
+                    break;
+                case 8:
+                    Debug.Log("Move_RIGHT");
+                    moveRIGHT = true;
+                    break;
+                case 9:
+                    Debug.Log("Move_LEFT");
+                    moveLEFT = true;
+                    break;
+                      
+
+                       
+
+
+
+
                         case 10:
                             //Debug.Log("Look_RIGHT");
                             lookRIGHT = true;
+                            Debug.Log("LOOK RIGHT");
                             break;
                         case 11:
                             //Debug.Log("Look_LEFT");
                             lookLEFT = true;
+                            Debug.Log("LOOK LEFT");
                             break;
                         case 12:
                             //Debug.Log("Look_UP");
                             lookUP = true;
+                            Debug.Log("LOOK  UP");
                             break;
                         case 13:
                             //Debug.Log("Look_DOWN");
                             lookDOWN = true;
+                            Debug.Log("LOOK DOWN");
                             break;
                         default:
 
@@ -213,6 +242,8 @@ public class ConnectArd : MonoBehaviour
         }
 
 
+        Move();
+        Look();
 
 
     }
@@ -241,27 +272,29 @@ public class ConnectArd : MonoBehaviour
         // Use moveUP, moveDOWN, moveLEFT, moveRIGHT flags
         if (moveUP == true)
         {
-            direction += transform.forward; // Move forward
+            direction += -transform.right; // Strafe right
+            
             moveUP = false;
-            Debug.Log("up");
+            //Debug.Log("up");
         }
-        else if (moveDOWN == true)
+        if (moveDOWN == true)
         {
-            direction -= transform.forward; // Move backward
+            direction += transform.right; // Strafe left
+            
             moveDOWN = false;
-            Debug.Log("down");
+            //Debug.Log("down");
         }
-        else if (moveLEFT == true)
+        if (moveLEFT == true)
         {
-            direction -= transform.right; // Strafe left
+            direction += -transform.forward; // Move backward
             moveLEFT = false;
-            Debug.Log("left");
+            //Debug.Log("left");
         }
-        else if (moveRIGHT == true)
+        if (moveRIGHT == true)
         {
-            direction += transform.right; // Strafe right
+            direction += transform.forward; // Move forward
             moveRIGHT = false;
-            Debug.Log("right");
+            //Debug.Log("right");
         }
 
         // Normalize direction to maintain consistent speed
@@ -286,6 +319,9 @@ public class ConnectArd : MonoBehaviour
         // Apply gravity
         velocity.y += Physics.gravity.y * Time.deltaTime;
     }
+
+   
+       
 
     void Look()
     {
