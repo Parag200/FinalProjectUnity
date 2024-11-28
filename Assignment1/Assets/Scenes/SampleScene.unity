@@ -218,7 +218,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 547833561}
-  m_Father: {fileID: 2041765991}
+  m_Father: {fileID: 963194228}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -952,6 +952,7 @@ Transform:
   - {fileID: 473344087}
   - {fileID: 787400246}
   - {fileID: 1603952660}
+  - {fileID: 47117105}
   m_Father: {fileID: 2041765991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1065073401
@@ -1098,7 +1099,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 963194228}
-  - {fileID: 47117105}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2041765992
@@ -1214,6 +1214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletSpawn: {fileID: 1603952660}
   BulletSpawnPrefab: {fileID: 435908891917763917, guid: 8d1b0decfb4b8c5419e057686fb18460, type: 3}
+  player: {fileID: 2041765990}
   bulletSpeed: 10
   ammo: 8
   moveSpeed: 5

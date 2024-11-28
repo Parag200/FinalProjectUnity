@@ -10,6 +10,7 @@ public class ConnectArd : MonoBehaviour
 {
     public Transform BulletSpawn;
     public GameObject BulletSpawnPrefab;
+    public GameObject player;
     public float bulletSpeed = 10;
 
     public int ammo = 8;
@@ -25,6 +26,7 @@ public class ConnectArd : MonoBehaviour
     public CharacterController controller;
     public Camera playerCamera;
     private float verticalRotation = 0f;
+    private float horizontalRotation = 0f;
 
     public float normalHeight = 2f;
     public float crouchHeight = 1f;
@@ -67,14 +69,14 @@ public class ConnectArd : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moveDOWN = false;
-        moveUP = false;
-        moveLEFT = false;
-        moveRIGHT = false;
-        lookDOWN = false;
-        lookUP= false;
-        lookLEFT = false;
-        lookRIGHT = false;
+
+        Move();
+        Look();
+       
+        if (lookLEFT == false || lookRIGHT == false)
+        {
+            horizontalRotation = 0;
+        }
        
 
 
@@ -149,22 +151,22 @@ public class ConnectArd : MonoBehaviour
                         case 10:
                             //Debug.Log("Look_RIGHT");
                             lookRIGHT = true;
-                            Debug.Log("LOOK RIGHT");
+                            
                             break;
                         case 11:
                             //Debug.Log("Look_LEFT");
                             lookLEFT = true;
-                            Debug.Log("LOOK LEFT");
+                            
                             break;
                         case 12:
                             //Debug.Log("Look_UP");
                             lookUP = true;
-                            Debug.Log("LOOK  UP");
+                           
                             break;
                         case 13:
                             //Debug.Log("Look_DOWN");
                             lookDOWN = true;
-                            Debug.Log("LOOK DOWN");
+                           
                             break;
                         default:
 
@@ -242,11 +244,13 @@ public class ConnectArd : MonoBehaviour
         }
 
 
-        Move();
-        Look();
+        
 
 
     }
+
+   
+
 
     private void OnApplicationQuit()
     {
@@ -294,7 +298,7 @@ public class ConnectArd : MonoBehaviour
         {
             direction += transform.forward; // Move forward
             moveRIGHT = false;
-            //Debug.Log("right");
+            Debug.Log("right");
         }
 
         // Normalize direction to maintain consistent speed
@@ -320,38 +324,52 @@ public class ConnectArd : MonoBehaviour
         velocity.y += Physics.gravity.y * Time.deltaTime;
     }
 
-   
-       
+
 
     void Look()
     {
         // Adjust camera rotation based on joystick input
         if (lookDOWN == true)
         {
-            verticalRotation += lookSpeed; // Look up
+            verticalRotation += 1f; // Look down
             lookDOWN = false; // Reset after processing
+            Debug.Log("LOOK DOWN");
         }
         if (lookUP == true)
         {
-            verticalRotation -= lookSpeed; // Look down
+            verticalRotation -= 1f; // Look up
             lookUP = false; // Reset after processing
-        }
-
-        // Adjust horizontal rotation based on joystick input
-        if (lookLEFT == true)
-        {
-            transform.Rotate(Vector3.up, -lookSpeed); // Look left
-            lookLEFT = false; // Reset after processing
-        }
-        if (lookRIGHT == true)
-        {
-            transform.Rotate(Vector3.up, lookSpeed); // Look right
-            lookRIGHT = false; // Reset after processing
+            Debug.Log("LOOK UP");
         }
 
         // Clamp vertical rotation to prevent flipping
         verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f);
-        playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+
+        // Apply vertical rotation to the camera (pitch)
+        playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+
+        // Handle horizontal rotation (yaw) for the player
+        //float horizontalRotation = 0f;
+
+        if (lookLEFT == true)
+        {
+            horizontalRotation -= 1f; // Rotate player to the left
+            lookLEFT = false; // Reset after processing
+            Debug.Log("LOOK LEFT");
+            
+        }
+        if (lookRIGHT == true)
+        {
+            horizontalRotation += 1f; // Rotate player to the right
+            lookRIGHT = false; // Reset after processing
+            Debug.Log("LOOK RIGHT");
+            
+        }
+
+        // Apply horizontal rotation based on the camera's current vertical rotation
+        player.transform.rotation = Quaternion.Euler(0f, player.transform.eulerAngles.y + horizontalRotation, 0f);
     }
+
+
 
 }
