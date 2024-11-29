@@ -1,23 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
+    public float currentTime;
+    public Badbuy Badbuy;
 
-    float currentTime;
-
-    [SerializeField] float Startingtime = 200000f;
-
+    public float Startingtime = 40f;
     [SerializeField] TextMeshProUGUI countdown;
-
-    public Badbuy badbuy;
+    public static int score = 0;  // Static score to track across all Badbuy objects
 
     // Start is called before the first frame update
-    void Start() 
+    void Start()
     {
         currentTime = Startingtime;
     }
@@ -28,16 +23,19 @@ public class Timer : MonoBehaviour
         currentTime -= 1 * Time.deltaTime;
         countdown.text = currentTime.ToString();
 
-        if (currentTime<=0.0f && badbuy.score<=0)
-        {
-            SceneManager.LoadScene("Lose");
-        }
+        // Check if the time is up and the score is enough to win or not
 
-        if (currentTime <= 0.0f && badbuy.score>0)
-        {
-            SceneManager.LoadScene("Win");
-        }
-
+        if (Badbuy.score < 4 && currentTime < 0.0f)
+            {
+                // If score is less than 4 and tim e is up, load lose scene
+                SceneManager.LoadScene("Lose");
+            }
+            else if (Badbuy.score > 3)
+            {
+                // If score is 4 or more, load win scene
+                SceneManager.LoadScene("Win");
+            }
+        
 
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO.Ports;
 using Unity.VisualScripting;
 using System;
+using TMPro;
 //using UnityEditor.Experimental.GraphView;
 
 public class ConnectArd : MonoBehaviour
@@ -13,7 +14,11 @@ public class ConnectArd : MonoBehaviour
     public GameObject player;
     public float bulletSpeed = 10;
 
+
+    [SerializeField] TextMeshProUGUI bulletUI;
+
     public int ammo = 8;
+    public int displayaAmmo = 8;
     int ammoCount = 0;
 
     private Vector3 velocity;
@@ -77,8 +82,7 @@ public class ConnectArd : MonoBehaviour
         {
             horizontalRotation = 0;
         }
-       
-
+        bulletUI.text = displayaAmmo.ToString();
 
 
 
@@ -95,25 +99,25 @@ public class ConnectArd : MonoBehaviour
                     switch (buttonValue)
                     {
                         case 1:
-                            Debug.Log("A is Pressed");
+                            //Debug.Log("A is Pressed");
                             Apressed = true;
                             break;
                         case 2:
-                            Debug.Log("B is Pressed");
+                            //Debug.Log("B is Pressed");
                             Bpressed = true;
 
 
                             break;
                         case 3:
-                            Debug.Log("X is Pressed");
+                            //Debug.Log("X is Pressed");
                             Xpressed = true;
                             break;
                         case 4:
-                            Debug.Log("Y is Pressed");
+                            //Debug.Log("Y is Pressed");
                             Ypressed = true;
                             break;
                         case 5:
-                            Debug.Log("Trigger is Pressed");
+                            //Debug.Log("Trigger is Pressed");
                             Triggerpressed = true;
                             break;
 
@@ -124,21 +128,21 @@ public class ConnectArd : MonoBehaviour
 
 
                       case 6:
-                    Debug.Log("Move_UP");
+                    //Debug.Log("Move_UP");
                     moveUP = true;
                     break;
 
 
                 case 7:
-                    Debug.Log("Move_DOWN");
+                    //Debug.Log("Move_DOWN");
                     moveDOWN = true;
                     break;
                 case 8:
-                    Debug.Log("Move_RIGHT");
+                    //Debug.Log("Move_RIGHT");
                     moveRIGHT = true;
                     break;
                 case 9:
-                    Debug.Log("Move_LEFT");
+                    //Debug.Log("Move_LEFT");
                     moveLEFT = true;
                     break;
                       
@@ -208,6 +212,7 @@ public class ConnectArd : MonoBehaviour
             ammoCount = 0;
             Xpressed = false;
             Triggerpressed = false;
+            displayaAmmo = 8;
         }
 
 
@@ -220,10 +225,11 @@ public class ConnectArd : MonoBehaviour
                 var bullet = Instantiate(BulletSpawnPrefab, BulletSpawn.position, BulletSpawn.rotation);
                 bullet.GetComponent<Rigidbody>().velocity = BulletSpawn.forward * bulletSpeed;
                 ammoCount = ammoCount + 1;
+                displayaAmmo = displayaAmmo - 1;
                 Triggerpressed = false;
             }
 
-            Debug.Log("Out of Bullets");
+            //Debug.Log("Out of Bullets");
 
         }
 
@@ -298,7 +304,7 @@ public class ConnectArd : MonoBehaviour
         {
             direction += transform.forward; // Move forward
             moveRIGHT = false;
-            Debug.Log("right");
+            //Debug.Log("right");
         }
 
         // Normalize direction to maintain consistent speed
@@ -333,13 +339,13 @@ public class ConnectArd : MonoBehaviour
         {
             verticalRotation += 1f; // Look down
             lookDOWN = false; // Reset after processing
-            Debug.Log("LOOK DOWN");
+            //Debug.Log("LOOK DOWN");
         }
         if (lookUP == true)
         {
             verticalRotation -= 1f; // Look up
             lookUP = false; // Reset after processing
-            Debug.Log("LOOK UP");
+            //Debug.Log("LOOK UP");
         }
 
         // Clamp vertical rotation to prevent flipping
@@ -355,14 +361,14 @@ public class ConnectArd : MonoBehaviour
         {
             horizontalRotation -= 1f; // Rotate player to the left
             lookLEFT = false; // Reset after processing
-            Debug.Log("LOOK LEFT");
-            
+            //Debug.Log("LOOK LEFT");
+            //
         }
         if (lookRIGHT == true)
         {
             horizontalRotation += 1f; // Rotate player to the right
             lookRIGHT = false; // Reset after processing
-            Debug.Log("LOOK RIGHT");
+            //Debug.Log("LOOK RIGHT");
             
         }
 

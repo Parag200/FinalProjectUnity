@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Badbuy : MonoBehaviour
 
 
 {
-
-    public int score = 0;
+    public Timer timer;
+    public static int score = 0;
+    public bool hasWin = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,8 +19,8 @@ public class Badbuy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     
         
+
 
     }
 
@@ -27,8 +29,11 @@ public class Badbuy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Destroy(this.gameObject);
-            score += 1;
+            this.gameObject.SetActive(false);
+            score++;
+            Debug.Log(score);
+
+           
         }
     }
 }
